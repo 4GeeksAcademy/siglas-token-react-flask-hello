@@ -11,6 +11,10 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 
+# importaciones nuevas
+from flask_bcrypt import Bcrypt # para encriptar y comparar
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -19,6 +23,11 @@ static_file_dir = os.path.join(os.path.dirname(
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
+# Nuevas configuraciones
+app.config["JWT_SECRET_KEY"] = "valor_variable" # clave secreta para firmar los tokens, cuanto mas largo mejor
+jwt = JWTManager(app) # instanciamos jwt de JWTManager utilizando app para tenet las herramientas de encriptacion
+bcrypt = Bcrypt(app) # para encriptar el password
+ 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
