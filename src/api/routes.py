@@ -84,4 +84,45 @@ def add_user():
 def all_user():
     data= User.query.all()
     return jsonify({ "data": [user.serialize() for user in data], "message" :"mensage", "ok": True, "details": "none"}), 200   
+
+
+@api.route("/login", methods=["POST"])
+def login():
+    try:
+        email = request.json.get("email")
+        password = request.json.get("password")
+        if not email or not password:
+            return jsonify({"message": "Email and password are required."}), 400
+        login_user = User.query.filter_by(email=email).one()
+        if not login_user:
+            return jsonify({"message": "Invalid email"}), 404
+        password_from_db = login_user.password
+        resultado = bcrypt.check_password_hash(password_from_db, password)
+        if resultado:
+            expires = timedelta(days=1) # pueden ser "hours", "minutes", "days", "seconds"
+            user_id = login_user.id
+            access_token = create_access_token(identity=str(user_id), expires_delta=expires)
+            return jsonify({"access_token": access_token, "ok":True}),200
+        else:
+            return jsonify({"message": "invalid password/email", "ok": False}), 404
+    except Exception as e:
+        return jsonify({"message": "se registro un error", "details": str(e)}), 500
     
+@api.route("/users")
+@jwt_required() # decorador para requerir autenticacion con jwt
+def show_user():
+    print(get_jwt_identity())
+    current_user_id = get_jwt_identity() # obtiene la id del usuario del token
+    if current_user_id:
+        users = User.query.all()
+        user_list = []
+        for user in users:
+            user_dict = {
+                "id": user.id,
+                "email": user.email,
+                "name": user.name
+            }
+            user_list.append(user_dict)
+        return jsonify({"users": user_list, "ok": True}),200
+    else:
+        return jsonify({"message": "token invalido, o no proporcionado"}), 401

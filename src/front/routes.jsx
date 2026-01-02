@@ -10,6 +10,9 @@ import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
 import Registrarse from "./components/Registrarse";
+import Login from "./components/Login";
+import ListUsers from "./components/ListUsers";
+import Logout from "./components/Logout";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -25,6 +28,9 @@ export const router = createBrowserRouter(
         {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
         <Route path= "/" element={<Home />} />
         <Route path= "/registrarse" element={ <Registrarse /> }/>
+        <Route path= "/login" element={ <Login />}/>
+        <Route path= "/logout" element={ <Logout />}/>
+        <Route path= "/usuarios" element={ <ListUsers />}/>
         <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
         <Route path="/demo" element={<Demo />} />
       </Route>

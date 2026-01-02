@@ -1,6 +1,7 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const Registrarse = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -76,6 +77,7 @@ const Registrarse = () => {
         confirmPassword: "",
         is_active : "True",
       });
+      navigate("/login")
 
     } catch (error) {
       showAlert("danger", "Error de red. Intenta nuevamente.");
@@ -88,7 +90,6 @@ const Registrarse = () => {
     <div className="container-fluid min-vh-100 d-flex justify-content-center align-items-center px-3">
       <div className="card shadow w-100" style={{ maxWidth: "420px" }}>
 
-        {/* ALERTA */}
         {alert.show && (
           <div
             className={`alert alert-${alert.type} alert-dismissible fade show mb-0 rounded-top`}
@@ -107,7 +108,6 @@ const Registrarse = () => {
           <h3 className="text-center mb-4">Registro</h3>
 
           <form onSubmit={handleSubmit}>
-            {/* Nombre */}
             <div className="mb-3">
               <label className="form-label">Nombre</label>
               <input
@@ -121,7 +121,6 @@ const Registrarse = () => {
               />
             </div>
 
-            {/* Email */}
             <div className="mb-3">
               <label className="form-label">Email</label>
               <input
@@ -135,7 +134,6 @@ const Registrarse = () => {
               />
             </div>
 
-            {/* Password */}
             <div className="mb-3">
               <label className="form-label">Contraseña</label>
               <input
@@ -149,7 +147,6 @@ const Registrarse = () => {
               />
             </div>
 
-            {/* Confirm Password */}
             <div className="mb-3">
               <label className="form-label">Confirmar Contraseña</label>
               <input
@@ -163,7 +160,6 @@ const Registrarse = () => {
               />
             </div>
 
-            {/* Botón */}
             <button
               type="submit"
               className="btn btn-primary w-100 d-flex justify-content-center align-items-center"

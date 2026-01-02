@@ -33,8 +33,7 @@ export const Home = () => {
 	}, [])
 
 	return (
-		<div className="text-center mt-5">
-			<h1>probando</h1>
-		</div>
+		<h1>Pagina de Inicio</h1>
+
 	);
 }; 
